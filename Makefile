@@ -37,6 +37,9 @@ lintfix: fmt
 build:
 	go build -o ./gemserve ./main.go
 
+build-docker:
+	docker build -t gemserve .
+
 show-updates:
 	go list -m -u all
 
