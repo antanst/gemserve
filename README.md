@@ -30,4 +30,5 @@ You'll need TLS keys, you can use `certs/generate.sh`
 for quick generation.
 
 ## TODO
+- [ ] Make TLS keys path configurable via venv
 - [ ] Fix slowloris (proper response timeouts)
