@@ -106,7 +106,7 @@ func startServer(listenHost string) (err error) {
 			if err != nil {
 				var asErr *errors.Error
 				if errors.As(err, &asErr) {
-					logging.LogError("Unexpected error: %v %v", err, err.(*errors.Error).ErrorWithStack())
+					logging.LogError("Unexpected error: %v", err.(*errors.Error).ErrorWithStack())
 				} else {
 					logging.LogError("Unexpected error: %v", err)
 				}
