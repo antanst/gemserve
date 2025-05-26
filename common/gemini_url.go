@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gemserve/errors"
+	"git.antanst.com/antanst/xerrors"
 )
 
 type URL struct {
@@ -28,7 +28,7 @@ func (u *URL) Scan(value interface{}) error {
 	}
 	b, ok := value.(string)
 	if !ok {
-		return errors.NewFatalError(fmt.Errorf("database scan error: expected string, got %T", value))
+		return xerrors.NewError(fmt.Errorf("database scan error: expected string, got %T", value), 0, "Database scan error", true)
 	}
 	parsedURL, err := ParseURL(b, "", false)
 	if err != nil {
@@ -67,12 +67,10 @@ func ParseURL(input string, descr string, normalize bool) (*URL, error) {
 	} else {
 		u, err = url.Parse(input)
 		if err != nil {
-			return nil, errors.NewError(fmt.Errorf("error parsing URL: %w: %s", err, input))
+			return nil, xerrors.NewError(fmt.Errorf("error parsing URL: %w: %s", err, input), 0, "URL parse error", false)
 		}
 	}
-	if u.Scheme != "gemini" {
-		return nil, errors.NewError(fmt.Errorf("error parsing URL: not a gemini URL: %s", input))
-	}
+
 	protocol := u.Scheme
 	hostname := u.Hostname()
 	strPort := u.Port()
@@ -82,7 +80,7 @@ func ParseURL(input string, descr string, normalize bool) (*URL, error) {
 	}
 	port, err := strconv.Atoi(strPort)
 	if err != nil {
-		return nil, errors.NewError(fmt.Errorf("error parsing URL: %w: %s", err, input))
+		return nil, xerrors.NewError(fmt.Errorf("error parsing URL: %w: %s", err, input), 0, "URL parse error", false)
 	}
 	full := fmt.Sprintf("%s://%s:%d%s", protocol, hostname, port, urlPath)
 	// full field should also contain query params and url fragments
@@ -128,13 +126,13 @@ func NormalizeURL(rawURL string) (*url.URL, error) {
 	// Parse the URL
 	u, err := url.Parse(rawURL)
 	if err != nil {
-		return nil, errors.NewError(fmt.Errorf("error normalizing URL: %w: %s", err, rawURL))
+		return nil, xerrors.NewError(fmt.Errorf("error normalizing URL: %w: %s", err, rawURL), 0, "URL normalization error", false)
 	}
 	if u.Scheme == "" {
-		return nil, errors.NewError(fmt.Errorf("error normalizing URL: No scheme: %s", rawURL))
+		return nil, xerrors.NewError(fmt.Errorf("error normalizing URL: No scheme: %s", rawURL), 0, "Missing URL scheme", false)
 	}
 	if u.Host == "" {
-		return nil, errors.NewError(fmt.Errorf("error normalizing URL: No host: %s", rawURL))
+		return nil, xerrors.NewError(fmt.Errorf("error normalizing URL: No host: %s", rawURL), 0, "Missing URL host", false)
 	}
 
 	// Convert scheme to lowercase
