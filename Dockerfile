@@ -4,7 +4,7 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN useradd -u 1000 -m user
 
-COPY ./gemserve /app/gemserve
+COPY ./dist/gemserve /app/gemserve
 
 WORKDIR /app
 
