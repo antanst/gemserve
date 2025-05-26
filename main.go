@@ -15,8 +15,8 @@ import (
 
 	"gemserve/config"
 	"gemserve/server"
-	"gemserve/uid"
 	logging "git.antanst.com/antanst/logging"
+	"git.antanst.com/antanst/uid"
 	"git.antanst.com/antanst/xerrors"
 )
 
