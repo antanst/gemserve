@@ -3,3 +3,4 @@
 /.idea
 /run.sh
 /dist
+/go.work*

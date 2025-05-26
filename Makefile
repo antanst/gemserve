@@ -19,7 +19,8 @@ test:
 	go test ./...
 
 tidy:
-	go mod tidy
+	go work sync
+	#go mod tidy
 
 # Format code
 fmt:
