@@ -18,17 +18,12 @@ make #run tests and build
 Run:
 
 ```shell
-LOG_LEVEL=info \
-PANIC_ON_UNEXPECTED_ERROR=true \
-RESPONSE_TIMEOUT=10 \ #seconds
-ROOT_PATH=./srv \
-DIR_INDEXING_ENABLED=false \
-./gemserve 0.0.0.0:1965
+./dist/gemserve
 ```
 
 You'll need TLS keys, you can use `certs/generate.sh`
 for quick generation.
 
 ## TODO
-- [ ] Make TLS keys path configurable via venv
+- [ ] Make TLS keys path configurable
 - [ ] Fix slowloris (proper response timeouts)
