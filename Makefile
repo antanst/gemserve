@@ -4,7 +4,7 @@ export PATH := $(PATH)
 all: fmt lintfix tidy test clean build
 
 clean:
-	rm -f ./gemserve
+	rm -rf ./dist
 
 debug:
 	@echo "PATH: $(PATH)"
@@ -35,9 +35,10 @@ lintfix: fmt
 	golangci-lint run --fix
 
 build:
-	go build -o ./gemserve ./main.go
+	mkdir -p ./dist
+	CGO_ENABLED=0 go build -o ./dist/gemserve ./main.go
 
-build-docker:
+build-docker: build
 	docker build -t gemserve .
 
 show-updates:

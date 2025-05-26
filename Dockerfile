@@ -1,4 +1,4 @@
-FROM golang:1.23-bookworm
+FROM debian:12-slim
 
 RUN apt-get update && apt-get upgrade -y
 
@@ -9,7 +9,8 @@ COPY ./gemserve /app/gemserve
 WORKDIR /app
 
 RUN chmod +x /app/gemserve && \
-    chown -R user:user /app
+    chown -R root:root /app && \
+    chmod -R 755 /app
 
 USER user
-CMD ["/app/gemserve","0.0.0.0:1965"]
+CMD ["/app/gemserve","--listen","0.0.0.0:1965","--root-path","/srv"]
